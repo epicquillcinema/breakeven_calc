@@ -13,5 +13,8 @@
   "settings": {
     "dart.flutterSdkPath": "/home/vscode/flutter",
     "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "containerEnv": {
+    "ANDROID_SDK_ROOT": "/home/vscode/android-sdk"
   }
 }
