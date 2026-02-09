@@ -1,0 +1,12 @@
+{
+  "title": "Break-Even Calculator",
+  "fields": [
+    {"label": "Fixed Monthly Costs", "key": "fixedCosts"},
+    {"label": "Price per Unit", "key": "price"},
+    {"label": "Variable Cost per Unit", "key": "variableCost"}
+  ],
+  "results": [
+    {"label": "Break-Even Units", "key": "breakEvenUnits"},
+    {"label": "Break-Even Revenue", "key": "breakEvenRevenue"}
+  ]
+}
