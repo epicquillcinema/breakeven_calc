@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     git-lfs \
     unzip \
     wget \
-    openjdk-11-jdk \
+    openjdk-17-jdk \
     lib32stdc++6 \
     lib32z1 \
     && rm -rf /var/lib/apt/lists/*
@@ -20,6 +20,7 @@ RUN git clone https://github.com/flutter/flutter.git -b stable && \
     /home/vscode/flutter/bin/flutter --version && \
     /home/vscode/flutter/bin/flutter config --no-analytics
 
+ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 ENV ANDROID_SDK_ROOT="/home/vscode/android-sdk"
 ENV PATH="/home/vscode/android-sdk/cmdline-tools/latest/bin:/home/vscode/android-sdk/platform-tools:${PATH}"
 
@@ -32,8 +33,9 @@ RUN mkdir -p /home/vscode/android-sdk/cmdline-tools && \
 
 RUN /home/vscode/android-sdk/cmdline-tools/latest/bin/sdkmanager \
     "platform-tools" \
-    "platforms;android-34" \
-    "build-tools;34.0.0"
+    "platforms;android-36" \
+    "build-tools;36.0.0" \
+    "build-tools;28.0.3"
 
 # Add Flutter to PATH
 ENV PATH="/home/vscode/flutter/bin:$PATH"
