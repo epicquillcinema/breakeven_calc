@@ -26,8 +26,8 @@ class _CalculatorFormState extends State<CalculatorForm> {
 
   Future<void> loadConfig() async {
     try {
-      final jsonString =
-          await rootBundle.loadString('lib/config/breakeven_config.json');
+        final jsonString =
+          await rootBundle.loadString('assets/config/breakeven_config.json');
       final jsonData = json.decode(jsonString);
       setState(() {
         fields = List<Map<String, String>>.from(jsonData['fields']);
@@ -41,7 +41,7 @@ class _CalculatorFormState extends State<CalculatorForm> {
     } catch (error) {
       setState(() {
         isLoading = false;
-        loadError = 'Failed to load calculator config.';
+        loadError = 'Failed to load calculator config: $error';
       });
     }
   }

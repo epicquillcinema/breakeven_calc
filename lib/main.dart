@@ -8,9 +8,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Long-Tail Calculator',
+      title: 'Breakeven Calculator',
       home: Scaffold(
-        appBar: AppBar(title: const Text('Long-Tail Calculator')),
+        appBar: AppBar(title: const Text('Breakeven Calculator')),
         body: const Padding(
           padding: EdgeInsets.all(16.0),
           child: CalculatorForm(),
