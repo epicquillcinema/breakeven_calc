@@ -1,17 +1,32 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
 
-# Install dependencies for Flutter and Android development
+# Install dependencies for Flutter, Android, web, and Linux development
 RUN apt-get update && apt-get install -y \
+    clang \
     curl \
     git \
     git-lfs \
     gh \
+    cmake \
+    gnupg \
+    libgtk-3-dev \
+    liblzma-dev \
     unzip \
     wget \
+    ninja-build \
     openjdk-17-jdk \
+    pkg-config \
     lib32stdc++6 \
     lib32z1 \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Google Chrome for Flutter web support
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | \
+    gpg --dearmor -o /usr/share/keyrings/google-linux-keyring.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+    > /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && apt-get install -y google-chrome-stable && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Flutter and Android SDK as vscode user
 USER vscode
