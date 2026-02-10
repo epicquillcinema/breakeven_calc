@@ -15,6 +15,8 @@ class _CalculatorFormState extends State<CalculatorForm> {
   List<Map<String, String>> results = [];
   final Map<String, TextEditingController> controllers = {};
   Map<String, double> resultValues = {};
+  bool isLoading = true;
+  String? loadError;
 
   @override
   void initState() {
@@ -23,16 +25,25 @@ class _CalculatorFormState extends State<CalculatorForm> {
   }
 
   Future<void> loadConfig() async {
-    final jsonString =
-        await rootBundle.loadString('lib/config/breakeven_config.json');
-    final jsonData = json.decode(jsonString);
-    setState(() {
-      fields = List<Map<String, String>>.from(jsonData['fields']);
-      results = List<Map<String, String>>.from(jsonData['results']);
-      for (var f in fields) {
-        controllers[f['key']!] = TextEditingController();
-      }
-    });
+    try {
+      final jsonString =
+          await rootBundle.loadString('lib/config/breakeven_config.json');
+      final jsonData = json.decode(jsonString);
+      setState(() {
+        fields = List<Map<String, String>>.from(jsonData['fields']);
+        results = List<Map<String, String>>.from(jsonData['results']);
+        for (var f in fields) {
+          controllers[f['key']!] = TextEditingController();
+        }
+        isLoading = false;
+        loadError = null;
+      });
+    } catch (error) {
+      setState(() {
+        isLoading = false;
+        loadError = 'Failed to load calculator config.';
+      });
+    }
   }
 
   void calculate() {
@@ -46,6 +57,32 @@ class _CalculatorFormState extends State<CalculatorForm> {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (loadError != null) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(loadError!),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isLoading = true;
+                  loadError = null;
+                });
+                loadConfig();
+              },
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Column(
       children: [
         ...fields.map((f) => Padding(
