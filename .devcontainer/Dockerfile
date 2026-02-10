@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     git-lfs \
+    gh \
     unzip \
     wget \
     openjdk-17-jdk \
