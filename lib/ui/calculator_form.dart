@@ -30,8 +30,12 @@ class _CalculatorFormState extends State<CalculatorForm> {
           await rootBundle.loadString('assets/config/breakeven_config.json');
       final jsonData = json.decode(jsonString);
       setState(() {
-        fields = List<Map<String, String>>.from(jsonData['fields']);
-        results = List<Map<String, String>>.from(jsonData['results']);
+        fields = (jsonData['fields'] as List<dynamic>)
+            .map((item) => Map<String, String>.from(item as Map))
+            .toList();
+        results = (jsonData['results'] as List<dynamic>)
+            .map((item) => Map<String, String>.from(item as Map))
+            .toList();
         for (var f in fields) {
           controllers[f['key']!] = TextEditingController();
         }
