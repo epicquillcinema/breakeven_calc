@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../calc_engine.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'dart:html' as html;
 
 class CalculatorForm extends StatefulWidget {
   const CalculatorForm({super.key});
@@ -26,9 +26,8 @@ class _CalculatorFormState extends State<CalculatorForm> {
 
   Future<void> loadConfig() async {
     try {
-        final jsonString =
-          await rootBundle.loadString('assets/config/breakeven_config.json');
-      final jsonData = json.decode(jsonString);
+      final response = await html.HttpRequest.getString('/config/breakeven_config.json');
+      final jsonData = json.decode(response);
       setState(() {
         fields = (jsonData['fields'] as List<dynamic>)
             .map((item) => Map<String, String>.from(item as Map))
